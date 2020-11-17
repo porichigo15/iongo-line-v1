@@ -16,7 +16,6 @@
   <script src="https://static.line-scdn.net/liff/edge/versions/2.3.0/sdk.js"></script>
   <script>
     function runApp() {
-        console.log(lift)
       liff.getProfile().then(profile => {
         document.getElementById("pictureUrl").src = profile.pictureUrl;
         document.getElementById("userId").innerHTML = '<b>UserId:</b> ' + profile.userId;
