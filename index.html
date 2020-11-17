@@ -1,43 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFF Starter</title>
-    <link rel="stylesheet" href="https://mokmoon.com/lift/css/style.css" media="all"/>
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.3.0/sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My LIFF v2</title>
+  <style>
+    #pictureUrl { display: block; margin: 0 auto }
+  </style>
 </head>
-
 <body>
-    <h1>Page A</h1>
-    <img id="pictureUrl"/>
-    <p id="displayName"><b>displayName:</b> </p>
-    <p id="statusMessage"><b>statusMessage:</b> </p>
-    <button id="btnLogout" onclick="logout()">Log out</button>
-
-    <script>
-        async function main() {
-            await lift.init({ liftId: "1655212012-qE4vgdJ5" })
-            if (lift.isLoggedIn()) {
-                getProfile()
-            } else {
-                lift.login()
-            }
-        }
-        main()
-
-        async function getProfile() {
-            const profile = await lift.getProfile()
-            document.getElementById("pictureUrl").src = profile.pictureUrl
-            document.getElementById("displayName").append(profile.displayName)
-            document.getElementById("statusMessage").append(profile.statusMessage)
-        }
-
-        function logout() {
-            lift.logout()
-            window.location.reload()
-        }
-    </script>
+  <img id="pictureUrl" width="25%">
+  <p id="userId"></p>
+  <p id="displayName"></p>
+  <p id="statusMessage"></p>
+  <p id="getDecodedIDToken"></p>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.3.0/sdk.js"></script>
+  <script>
+    function runApp() {
+      liff.getProfile().then(profile => {
+        document.getElementById("pictureUrl").src = profile.pictureUrl;
+        document.getElementById("userId").innerHTML = '<b>UserId:</b> ' + profile.userId;
+        document.getElementById("displayName").innerHTML = '<b>DisplayName:</b> ' + profile.displayName;
+        document.getElementById("statusMessage").innerHTML = '<b>StatusMessage:</b> ' + profile.statusMessage;
+        document.getElementById("getDecodedIDToken").innerHTML = '<b>Email:</b> ' + liff.getDecodedIDToken().email;
+      }).catch(err => console.error(err));
+    }
+    liff.init({ liffId: "1655212012-qE4vgdJ5" }, () => {
+      if (liff.isLoggedIn()) {
+        runApp()
+      } else {
+        liff.login();
+      }
+    }, err => console.error(err.code, error.message));
+  </script>
 </body>
-
 </html>
